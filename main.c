@@ -75,25 +75,19 @@ int main()
 {
     int n, c, r, totalCats;
 
-    // TODO: Call readInput to get n, c, r, and totalCats
+    // TODO: Read input
 
-    // TODO: Call readCats to read all cat information
+    // TODO: Initialize bestPermScore
 
-    // TODO: Call readRivals to read rival pairs
+    // TODO: Allocate tracker
 
-    // TODO: Initialize bestPermScore to a very low value (like -1e9)
+    // TODO: Create permutation and used arrays
 
-    // TODO: Allocate tracker as 2D array (n rows x c columns)
+    // TODO: Generate permutations
 
-    // TODO: Create permutation array of size totalCats
+    // TODO: Print results
 
-    // TODO: Create used array of size totalCats, initialize all to 0
-
-    // TODO: Call generatePermutations to find best arrangement
-
-    // TODO: Call printResults to display output
-
-    // TODO: Free all dynamically allocated memory (perm, used, call freeMemory)
+    // TODO: Free memory
 
     return 0;
 }
@@ -102,15 +96,15 @@ int main()
 
 void readInput(int *n, int *c, int *r, int *totalCats) // N = number of teams, C= number of cats, R = number of rivals
 {
-    // TODO: Read n and c from input
+    // TODO: Read n and c
     printf("Enter number of teams , and number of cats in the team");
     scanf(" %d %d", n, c);
 
-    // TODO: Calculate totalCats = n * c
+    // TODO: Calculate totalCats
 
     *totalCats = (*n) * (*c);
 
-    // TODO: Allocate cats array with totalCats elements
+    // TODO: Allocate cats array
 
     cats = malloc((*totalCats) * sizeof(Cat));
 
@@ -123,7 +117,7 @@ void readInput(int *n, int *c, int *r, int *totalCats) // N = number of teams, C
 
     readCats(*totalCats);
 
-    // TODO: Read r (number of rival pairs)
+    // TODO: Read r
 
     printf("\n Enter rival pairs: ");
     scanf("%d", r);
@@ -134,24 +128,24 @@ void readCats(int totalCats)
     char tempName[MAX_STR];
     char tempBreed[MAX_STR];
 
-    // TODO: Loop through totalCats
+    // TODO: Read all cats
     for (int i = 0; i < totalCats; i++)
     {
-        // TODO: Read cat name and breed into temp arrays
+        // TODO: Read name and breed
 
         scanf(" %s %s", &tempName, &tempBreed);
 
-        // TODO: Use allocateString to dynamically allocate and copy name
+        // TODO: Allocate and store name
         cats[i].name = allocateString(tempName);
 
-        // TODO: Use allocateString to dynamically allocate and copy breed
+        // TODO: Allocate and store breed
         cats[i].breed = allocateString(tempBreed);
 
-        // TODO: Initialize baseScore to 0
+        // TODO: Initialize baseScore
 
         int baseScore = 0; //
 
-        // TODO: Loop through MAX_SCORES to read 5 trait scores
+        // TODO: Read scores and calculate baseScore
         for (int j = 0; j < MAX_SCORES; j++)
         {
             scanf(" %d", &cats[i].scores[j]);       // loops the cat score
@@ -165,7 +159,7 @@ void readRivals(int r, int totalCats)
     char tempName1[MAX_STR];
     char tempName2[MAX_STR];
 
-    // TODO: If r == 0, set rivals to NULL and return
+    // TODO: Handle r == 0 case
 
     if (r == 0)
     {
@@ -173,29 +167,25 @@ void readRivals(int r, int totalCats)
         return;
     }
 
-    // TODO: Allocate rivals array with r elements
+    // TODO: Allocate rivals array
 
     rivals = malloc((r) * sizeof(Rivals));
 
-    // TODO: Loop through r rival pairs
+    // TODO: Read rival pairs
     for (int i = 0; i < r; i++)
     {
-        // TODO: Read two cat names
+        // TODO: Read names
 
         scanf(" %s %s ", tempName1, tempName2);
 
-        // TODO: Search through cats array to find matching names
+        // TODO: Find matching cats and store pointers
 
         for (int j = 0; j < totalCats; j++)
         {
-            //  - When found, set rivals[i].cat1 and rivals[i].cat2
             if (strcmp(tempName1, cats[j].name) == 0)
             {
-                //- Use pointers to the cats (e.g., &cats[j])
-
                 rivals[i].cat1 = &cats[j];
             }
-            //- Use pointers to the cats (e.g., &cats[j])
 
             if (strcmp(tempName2, cats[j].name) == 0)
             {
@@ -209,7 +199,7 @@ void readRivals(int r, int totalCats)
 
 char *allocateString(char *temp)
 {
-    // TODO: Allocate memory for strlen(temp) + 1 characters
+    // TODO: Allocate memory
 
     char *dest; // new pointer
 
@@ -220,10 +210,10 @@ char *allocateString(char *temp)
         return NULL;
     }
 
-    // TODO: Use strcpy to copy temp into allocated memory
+    // TODO: Copy string
     strcpy(dest, temp); // copying the temp to dest pointer memory
 
-    // TODO: Return pointer to allocated string
+    // TODO: Return pointer
 
     return dest; // returning new pointer to allocated string
 }
@@ -232,13 +222,13 @@ void freeMemory(int n, int c, int r)
 {
     int totalCats = n * c;
 
-    // TODO: Loop through all cats and free name and breed
+    // TODO: Free cat names and breeds
 
     // TODO: Free cats array
 
-    // TODO: Free rivals array (if not NULL)
+    // TODO: Free rivals array
 
-    // TODO: Free tracker 2D array (free each row, then the array itself)
+    // TODO: Free tracker array
 }
 
 // ===================== REQUIRED RECURSIVE FUNCTIONS =====================
@@ -246,42 +236,17 @@ void freeMemory(int n, int c, int r)
 
 int countHighPerformersTraits(/* TODO: your parameters */)
 {
-    // TODO: Base case - when should recursion stop?
-    //       Hint: when you've checked all cats in the team
-
-    // TODO: Recursive case:
-    //       - Get current cat from permutation
-    //       - Count how many of this cat's traits are >= 90
-    //       - Recursively call for next position
-    //       - Return sum of current count + recursive result
+    // TODO: Implement recursive function to count traits >= 90
 }
 
 int synergyBonusApplies(/* TODO: your parameters */)
 {
-    // TODO: Base case - checked all cats successfully
-    //       Return 1 (true) if reached end
-
-    // TODO: Get current cat from permutation
-
-    // TODO: Check if this cat has at least one trait >= 85
-    //       If not, return 0 (false) - synergy broken
-
-    // TODO: Recursive case - check next cat
-    //       Return result of recursive call
+    // TODO: Implement recursive function to check if all cats have at least one trait >= 85
 }
 
 int rivalPenaltyApplies(/* TODO: your parameters */)
 {
-    // TODO: Base case - checked all adjacent pairs
-    //       Hint: when currentPos >= teamSize - 1
-
-    // TODO: Get current cat and next cat (adjacent pair)
-
-    // TODO: Check if these two cats are rivals using areRivals helper
-    //       If yes, count = 1, else count = 0
-
-    // TODO: Recursively check next pair
-    //       Return current count + recursive result
+    // TODO: Implement recursive function to count adjacent rival pairs
 }
 
 // =====================x` SCORING FUNCTIONS =====================
@@ -290,31 +255,17 @@ float calculateTeamScore(int *perm, int teamStart, int teamSize, int r)
 {
     float score = 0.0;
 
-    // STEP 1: Calculate base score
-    // TODO: Sum up baseScores of all cats in team
-    // TODO: Divide by teamSize to get average
+    // TODO: Calculate average base score
 
-    // STEP 2: Add bonuses
+    // TODO: Add high performer bonus
 
-    // TODO: High Performer Bonus
-    //       Call countHighPerformersTraits, multiply by 5
+    // TODO: Add synergy bonus
 
-    // TODO: Synergy Bonus
-    //       If synergyBonusApplies returns true, add 30
+    // TODO: Add breed diversity bonus or penalty
 
-    // TODO: Breed Diversity Bonus OR Duplicate Breed Penalty
-    //       If allDifferentBreeds, add 10
-    //       Else, subtract 15
+    // TODO: Add position bonuses
 
-    // TODO: Position Bonus
-    //       For each cat in team:
-    //       - Add cat.baseScore * (POSITION_BONUS[position] / 100.0)
-
-    // STEP 3: Subtract penalties
-
-    // TODO: Rival Penalty
-    //       Call rivalPenaltyApplies to count adjacent rival pairs
-    //       Subtract count * 25
+    // TODO: Subtract rival penalty
 
     return score;
 }
@@ -323,10 +274,7 @@ float calculatePermutationScore(int *perm, int n, int c, int r)
 {
     float totalScore = 0.0;
 
-    // TODO: Loop through each team (0 to n-1)
-    //       - Calculate teamStart = team * c
-    //       - Call calculateTeamScore for this team
-    //       - Add to totalScore
+    // TODO: Calculate and sum scores for all teams
 
     return totalScore;
 }
@@ -335,93 +283,63 @@ float calculatePermutationScore(int *perm, int n, int c, int r)
 
 int areRivals(Cat *cat1, Cat *cat2, int r)
 {
-    // TODO: If rivals is NULL, return 0
-
-    // TODO: Loop through all rival pairs
-    //       Check if (cat1, cat2) or (cat2, cat1) match this pair
-    //       If yes, return 1
-
-    // TODO: If no match found, return 0
+    // TODO: Check if cat1 and cat2 are rivals
 }
 
 int allDifferentBreeds(int *perm, int teamStart, int teamSize)
 {
-    // TODO: Use nested loops to compare all pairs of cats in team
-    //       If any two have same breed (use strcmp), return 0
+    // TODO: Check if all cats in team have different breeds
     for (int i = 0; i < teamSize; i++)
     {
         for (int j = i+ 1; j < teamSize ; j++)
         {
+
+            int catIndex1 = perm[teamStart + i];
+
+
             if (strcmp(cats[i].breed, cats[j].breed) == 0)
             {
                 return 0;
             }
+           
+
             
         }
+        return 1;
         
     }
-    
-
-
-    // TODO: If all different, return 1
 }
 
 // ===================== PERMUTATION FUNCTIONS =====================
 
 void generatePermutations(int *perm, int *used, int pos, int totalCats, int n, int c, int r)
 {
-    // TODO: Base case - complete permutation (pos == totalCats)
-    //       - Calculate score using calculatePermutationScore
-    //       - If score > bestPermScore:
-    //         * Update bestPermScore
-    //         * Call updateTracker to save this arrangement
-    //       - Return
-
-    // TODO: Recursive case - try each unused cat
-    //       Loop i from 0 to totalCats-1:
-    //       - If used[i] is 0:
-    //         * Set used[i] = 1
-    //         * Set perm[pos] = i
-    //         * Recursively call with pos+1
-    //         * Set used[i] = 0 (backtrack)
+    // TODO: Implement recursive permutation generation with backtracking
 }
 
 void updateTracker(int *perm, int n, int c)
 {
-    // TODO: Copy values from 1D perm array to 2D tracker array
-    //       For each team and position:
-    //       tracker[team][pos] = perm[team * c + pos]
+    // TODO: Copy permutation to tracker
 }
 
 // ===================== OUTPUT FUNCTIONS =====================
 
 void printResults(int n, int c, int r)
 {
-    // TODO: Print "Best Teams Grouping score: %.2f\n" with bestPermScore
+    // TODO: Print overall best score
 
-    // TODO: Loop through each team
+    // TODO: Print each team and its score
     for (int team = 0; team < n; team++)
     {
-        // TODO: Print "Team %d:" with team number (1-based)
+        // TODO: Print team number and cat names
 
-        // TODO: Print all cat names in this team from tracker
-
-        // TODO: Calculate this team's score and print it
-
-        // TODO: Print newline
+        // TODO: Print team score
     }
 
-    // TODO: Find best team using findBestTeam
-
-    // TODO: Print "Best Candidate:" followed by cat names
+    // TODO: Print best candidate team
 }
 
 int findBestTeam(int n, int c, int r)
 {
-    // TODO: Loop through all teams
-    //       - Calculate score for each team
-    //       - Track which team has highest score
-    //       - If tie, choose first one (lower index)
-
-    // TODO: Return index of best team
+    // TODO: Find and return team with highest score
 }
