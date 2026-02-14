@@ -234,20 +234,101 @@ void freeMemory(int n, int c, int r)
 // ===================== REQUIRED RECURSIVE FUNCTIONS =====================
 // NOTE: You must design the parameters for these functions yourself!
 
-int countHighPerformersTraits(/* TODO: your parameters */)
+int countHighPerformersTraits(int *perm, int teamStart, int teamSize, int currentPos)
 {
     // TODO: Implement recursive function to count traits >= 90
+
+    if (currentPos >= teamSize) // base case checking all cats in the team
+    {
+        return 0; // no cats
+    }
+
+    int catIndex = perm[teamStart + currentPos]; // looking up which cat in the array
+    Cat *currentCat = &cats[catIndex];           // pointer to existing cats
+
+    // count how many cats in the array are 90 =>
+    int countForCat = 0;
+    for (int i = 0; i < MAX_SCORES; i++)
+    {
+        if (currentCat->scores[i] >= 90) // checking the value
+        {
+            countForCat++; // add one in the count
+        }
+
+    }
+    //recursive call to get the rest of the cats
+    int countForRest = countHighPerformersTraits(perm, teamStart, teamSize, currentPos + 1);
+
+    return countForCat + countForRest; //return cat count plus all the remaining
 }
 
-int synergyBonusApplies(/* TODO: your parameters */)
+int synergyBonusApplies(int *perm, int teamStart, int teamSize, int currentPos)
+
 {
     // TODO: Implement recursive function to check if all cats have at least one trait >= 85
+
+    if (currentPos >= teamSize) // base case checking all cats in the team
+    {
+        return 1; // all cats passed the check
+    }
+
+    int catIndex = perm[teamStart + currentPos]; // looking up which cat in the array
+    Cat *currentCat = &cats[catIndex];    // pointer to the current cat in the array
+
+    // count how many cats in the array are 85 =>
+    int hasHighTrait = 0;
+    for (int i = 0; i < MAX_SCORES; i++)
+    {
+        if (currentCat->scores[i] >= 85) // checking the value
+        {
+            hasHighTrait = 1; // set it to one 
+            break;
+        }
+
+
+    }
+    if (!hasHighTrait)
+    {
+        return 0; //cat failed, synergy out.
+    }
+    
+    //recursive call to get the rest of the cats
+    return synergyBonusApplies(perm, teamStart, teamSize, currentPos + 1);
+
+
 }
 
-int rivalPenaltyApplies(/* TODO: your parameters */)
+int rivalPenaltyApplies(int *perm, int teamStart, int teamSize, int currentPos, int r)
 {
     // TODO: Implement recursive function to count adjacent rival pairs
-}
+
+      if (currentPos >= teamSize - 1) // base case checking all adjacent pairs
+    {
+        return 0; // no pairs to check
+    }
+
+    int catIndex1 = perm[teamStart + currentPos]; // looking up which cat in the array
+    int catIndex2 = perm[teamStart + currentPos + 1]; // looking up which next  cat in the array
+    Cat *cat1 = &cats[catIndex1];    // pointer to the current cat in the array
+    Cat *cat2 = &cats[catIndex2];    // pointer to the next current cat in the array
+
+    // count how many cats in the array 
+    int penaltyForThisPair = 0;
+    for (int i = 0; i < r; i++)
+    {
+        if (areRivals(cat1, cat2, r)) // are they rivals
+        {
+            penaltyForThisPair = 1; // set it to one 
+        }
+
+    }
+    
+    //recursive call to get the rest of the cats
+    int penaltyForRest = rivalPenaltyApplies(perm, teamStart, teamSize, currentPos + 1, r);
+
+    //return: this pair's pentaly + remaining 
+    return penaltyForRest + penaltyForThisPair;
+}   
 
 // =====================x` SCORING FUNCTIONS =====================
 
@@ -283,30 +364,44 @@ float calculatePermutationScore(int *perm, int n, int c, int r)
 
 int areRivals(Cat *cat1, Cat *cat2, int r)
 {
+
+    if (rivals == NULL)
+    {
+        return 0;
+    }
+
     // TODO: Check if cat1 and cat2 are rivals
+    for (int i = 0; i < r; i++)
+    {
+        // Check if cat1 and cat2 match this rival pair
+        // Could be (cat1, cat2) OR (cat2, cat1)
+        if ((rivals[i].cat1 == cat1 && rivals[i].cat2 == cat2) || (rivals[i].cat1 == cat2 && rivals[i].cat2 == cat1))
+        {
+            return 1; // rivals
+        }
+    }
+    return 0; // no rivals
 }
 
 int allDifferentBreeds(int *perm, int teamStart, int teamSize)
 {
     // TODO: Check if all cats in team have different breeds
+    // Compare all pairs of cats in team
     for (int i = 0; i < teamSize; i++)
     {
-        for (int j = i+ 1; j < teamSize ; j++)
+        for (int j = i + 1; j < teamSize; j++) // adding i+1 for comparing the next cat in the loop
         {
-
+            //get the actual cat index from the permutation
             int catIndex1 = perm[teamStart + i];
+            int catIndex2 = perm[teamStart + j];
 
-
-            if (strcmp(cats[i].breed, cats[j].breed) == 0)
+            // comparing breeds
+            if (strcmp(cats[catIndex1].breed, cats[catIndex2].breed) == 0)
             {
-                return 0;
+                return 0; // duplicate
             }
-           
-
-            
         }
-        return 1;
-        
+        return 1; // no duplicates
     }
 }
 
@@ -343,3 +438,20 @@ int findBestTeam(int n, int c, int r)
 {
     // TODO: Find and return team with highest score
 }
+
+// int recursiveFunction(parameters, int currentPos) {
+
+// 1. BASE CASE - When to stop?
+// if (currentPos >= limit) {
+return 0; // or 1, or whatever makes sense
+}
+
+// 2. DO WORK - Handle the CURRENT item
+int resultForCurrent = // do something with current item
+
+    // 3. RECURSE - What about the REST?
+    //int resultForRest = recursiveFunction(parameters, currentPos + 1);
+
+// 4. COMBINE - Put them together
+return resultForCurrent + resultForRest; // or AND them, or whatever
+                                         //

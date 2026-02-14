@@ -1,0 +1,25 @@
+int countHighPerformersTraits(int *perm, int teamStart, int teamSize, int currentPos) {
+    
+    // BASE CASE: Checked all cats in the team?
+    if (currentPos >= teamSize) {
+        return 0;  // No more cats, return 0
+    }
+    
+    // Get the current cat we're examining
+    int catIndex = perm[teamStart + currentPos];
+    Cat *currentCat = &cats[catIndex];
+    
+    // Count how many of THIS cat's traits are >= 90
+    int countForThisCat = 0;
+    for (int i = 0; i < MAX_SCORES; i++) {
+        if (currentCat->scores[i] >= 90) {
+            countForThisCat++;
+        }
+    }
+    
+    // Recursive call: count traits for the NEXT cat
+    int countForRestOfCats = countHighPerformersTraits(perm, teamStart, teamSize, currentPos + 1);
+    
+    // Return: this cat's count + all remaining cats' counts
+    return countForThisCat + countForRestOfCats;
+}
